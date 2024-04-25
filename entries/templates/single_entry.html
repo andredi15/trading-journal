@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block title %}
+    Trading Journal - Entry
+{% endblock title %}Trading Journal
+
+{% block content %}
+
+<h1>{{ticker}}</h1>
+
+
+<!-- form below was using UpdateView -->
+<form method="POST" action="/entries/{{entry.id}}/" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        {{field.label_tag}}
+        {{field}}
+        {% if field.errors %}
+            <small class="error">{{ field.errors|striptags }}</small>            
+        {% endif %}
+    {% endfor %} 
+    <button type="submit" name="update_button">Save</button>
+    <button type="submit" formaction="/entries/{{entry.id}}/delete">Delete</button>
+
+</form>    
+
+{% if entry.image.url != Null %}
+    <img src="{{ entry.image.url }}" alt="{{ entry.result }}">
+        {% else %}
+    <img src="", alt="{{ entry.result }}">
+{% endif %}
+
+{% endblock content %}
+

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block title %}
+    Trading Journal - Register
+{% endblock title %}
+
+{% block content %}
+    <h1>Sign-Up to Use our Service!</h1>
+    <form method="POST" autocomplete="off">
+    {% csrf_token %}
+    {{ registerform.as_p }}
+
+    <button type="submit" value="register">Sign Up</button>
+    </form>
+
+
+{% endblock content %}
