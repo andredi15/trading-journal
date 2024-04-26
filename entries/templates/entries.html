@@ -50,4 +50,11 @@
     </tbody>
     </tr>
     </table>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
+{% endif %}
 {% endblock table %}
+
+{% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
+{% endif %}

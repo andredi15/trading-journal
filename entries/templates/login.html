@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block title %}
+    Trading Journal - Login Page
+{% endblock title %}
+
+{% block content %}
+    <h1>Sign-In Below</h1>
+    <form method="POST" autocomplete="off" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" value="login">Sign In</button>
+    <hr>
+    <p class="text-center">Forgot your password <a href="#">Reset Password</a></p>
+    <p class="text-center">Don't have an account? <a href="#">Join Now</a></p>
+    </form>
+
+
+{% endblock content %}

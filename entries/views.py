@@ -8,11 +8,10 @@ from .forms import EntryForm, CreateUserForm, LoginForm
 from .models import Entry
 from django.views.generic.edit import DeleteView, FormView
 # Authentication models and functions
-from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 #this is to ensure that even after you have your login setup, a user can't just manually type in the URL
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+
 
 # Create your views here. 
 
@@ -53,7 +52,7 @@ def SingleEntryView(request, pk):
     context = {'form': form, 'entry': entry}
     return render(request, "single_entry.html", context)
   
-class SingleEntryDeleteView(DeleteView): 
+class SingleEntryDeleteView(LoginRequiredMixin, DeleteView): 
   template_name = "single_entry.html"
   model = Entry
   success_url = reverse_lazy("index")
@@ -88,4 +87,16 @@ def register(request):
 #    def form_valid(self, form):
 #       form.save()
 #       return super().form_valid(form)
-      
+
+class LoginUserView(LoginView):
+   form = LoginForm
+   redirect_authenticated_user = True
+   template_name = "login.html"
+   next_page = "/"
+   authentication_form = LoginForm
+   context = {'form':form}
+
+   def form_invalid(self, form):
+      messages.error(self.request, 'Invalid usename or password')
+      return self.render_to_response(self.get_context_data(form=form))
+
