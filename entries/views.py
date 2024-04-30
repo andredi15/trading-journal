@@ -16,16 +16,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here. 
 
 class EntryView(LoginRequiredMixin, View):
-  login_url = 'register'
+  login_url = 'login'
   def get(self, request):
     logged_in_user = request.user.id
-    entries = Entry.objects.filter(trader_id=logged_in_user).order_by("entered_date")
+    entries = Entry.objects.filter(trader_id=logged_in_user).order_by("entered_date") #trader"_" id instead of .id is just django syntax
+    #entries = Entry.objects.all()
     form = EntryForm()
-    return render(request, "entries.html", {"form":form, "entries":entries})
+    return render(request, "entries.html", {"form":form, "entries":entries, "user":logged_in_user})
   
   def post(self, request):
     form = EntryForm(request.POST, request.FILES) #must add request.FILES for uploads
-    print(request.FILES)
     if form.is_valid():
       form.save()
       messages.success(request, "Entry created!")

@@ -19,7 +19,7 @@
         <button>Submit</button>
     </form>
 
-
+    <h1>Request.user.id:{{request.user.id}}</h1>
 {% endblock content %}
 
 {% block table %}
@@ -54,7 +54,3 @@
     <a href="{% url 'logout' %}"><button>Logout</button></a>
 {% endif %}
 {% endblock table %}
-
-{% if request.user.is_authenticated %}
-    <a href="{% url 'logout' %}"><button>Logout</button></a>
-{% endif %}

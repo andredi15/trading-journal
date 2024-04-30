@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib import admin
 from . import views
-from django.contrib.auth.views import LogoutView 
+
 
 urlpatterns = [
     path("", views.EntryView.as_view(), name="index"),

@@ -29,7 +29,7 @@ class Entry(models.Model):
     result=models.CharField(max_length=6, choices=RESULT_CHOICES, default="PROFIT")
     comments=models.TextField(max_length=300, blank=True)
     image = models.ImageField(upload_to="", null=True, blank=True) #will save to default BASE_DIR which is 'uploads'
-    trader = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="entries")
+    trader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="entries")
 
     def __str__(self):
         return f"{self.result} {self.entered_date}"
