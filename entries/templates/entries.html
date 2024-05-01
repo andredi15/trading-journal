@@ -18,8 +18,6 @@
         {{ form }}
         <button>Submit</button>
     </form>
-
-    <h1>Request.user.id:{{request.user.id}}</h1>
 {% endblock content %}
 
 {% block table %}
@@ -31,12 +29,16 @@
     <th>Ticker</th>
     <th>Strategy</th>
     <th>Result</th>
+    <th>Open Price</th>
+    <th>Position</th>
+    <th>Closed Price</th>
+    <th>P&L</th>
     <th>Comments</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-    <td colspan="5">
+    <td colspan="9">
     <div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
     </td>
     </tr>
@@ -44,7 +46,7 @@
     <tbody>
         {% for entry in entries %}
         <tr>
-            <td><a href="{% url 'single-entry' entry.id %}">{{entry.entered_date}}</a></td><td>{{entry.ticker}}</td><td>{{entry.strategy}}</td><td>{{entry.result}}</td><td>{{entry.comments}}</td></tr>
+            <td><a href="{% url 'single-entry' entry.id %}">{{entry.entered_date}}</a></td><td>{{entry.ticker}}</td><td>{{entry.strategy}}</td><td>{{entry.result}}</td><td>{{entry.open_price}}</td><td>{{entry.position}}</td><td>{{entry.close_price}}</td><td>{{entry.pnl}}</td><td>{{entry.comments}}</td></tr>
         {% endfor %}
     
     </tbody>

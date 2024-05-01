@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
-from django.utils.text import slugify
 from django.contrib.auth.models import User
 
 
@@ -29,7 +28,12 @@ class Entry(models.Model):
     result=models.CharField(max_length=6, choices=RESULT_CHOICES, default="PROFIT")
     comments=models.TextField(max_length=300, blank=True)
     image = models.ImageField(upload_to="", null=True, blank=True) #will save to default BASE_DIR which is 'uploads'
-    trader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="entries")
+    position = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)], blank=True, null=True)
+    open_price = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    close_price = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    pnl = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    trader = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="entries")
+    
 
     def __str__(self):
         return f"{self.result} {self.entered_date}"

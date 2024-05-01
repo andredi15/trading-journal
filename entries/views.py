@@ -19,14 +19,16 @@ class EntryView(LoginRequiredMixin, View):
   login_url = 'login'
   def get(self, request):
     logged_in_user = request.user.id
-    entries = Entry.objects.filter(trader_id=logged_in_user).order_by("entered_date") #trader"_" id instead of .id is just django syntax
-    #entries = Entry.objects.all()
+    print("****************")
+    print(f'Logged in user:{logged_in_user}')
+    entries = Entry.objects.filter(trader_id=logged_in_user).order_by("entered_date") #see: https://docs.djangoproject.com/en/5.0/topics/db/queries/#field-lookups
     form = EntryForm()
     return render(request, "entries.html", {"form":form, "entries":entries, "user":logged_in_user})
   
   def post(self, request):
     form = EntryForm(request.POST, request.FILES) #must add request.FILES for uploads
     if form.is_valid():
+      form.instance.trader = request.user #youre assigning one object to another; cant assign one object to a number. Or you could do trader_id on the LH side
       form.save()
       messages.success(request, "Entry created!")
       return redirect("/")
