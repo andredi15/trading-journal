@@ -29,9 +29,10 @@ class EntryView(LoginRequiredMixin, View):
     form = EntryForm(request.POST, request.FILES) #must add request.FILES for uploads
     if form.is_valid():
       form.instance.trader = request.user #youre assigning one object to another; cant assign one object to a number. Or you could do trader_id on the LH side
+      form.instance.calculate_pnl()
+      context = {'closePrice':form.instance.close_price, 'openPrice':form.instance.open_price}
       form.save()
-      messages.success(request, "Entry created!")
-      return redirect("/")
+      return render(request, "entries.html", context)
     else:
       messages.error(request, "Please correct the errors below.")
       return render(request, "entries.html", {"form":form})
@@ -46,6 +47,7 @@ def SingleEntryView(request, pk):
         if form.is_valid():
             # Set the user and save the updated data
             form.instance.user = request.user
+            form.instance.calculate_pnl()
             form.save()
             # Redirect to a success page (e.g., 'index')
     else:

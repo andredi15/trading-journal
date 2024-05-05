@@ -34,6 +34,8 @@ class Entry(models.Model):
     pnl = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     trader = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="entries")
     
+    def calculate_pnl(self):
+        self.pnl = round(self.position * self.close_price - self.position * self.open_price, 2) 
 
     def __str__(self):
         return f"{self.result} {self.entered_date}"
