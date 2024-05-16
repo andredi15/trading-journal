@@ -30,12 +30,11 @@ class EntryView(LoginRequiredMixin, View):
     if form.is_valid():
       form.instance.trader = request.user #youre assigning one object to another; cant assign one object to a number. Or you could do trader_id on the LH side
       form.instance.calculate_pnl()
-      context = {'closePrice':form.instance.close_price, 'openPrice':form.instance.open_price}
       form.save()
-      return render(request, "entries.html", context)
     else:
       messages.error(request, "Please correct the errors below.")
-      return render(request, "entries.html", {"form":form})
+    
+    return redirect("/")
 
     
 def SingleEntryView(request, pk):
